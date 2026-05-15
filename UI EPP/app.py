@@ -34,262 +34,598 @@ SAVE_DIR.mkdir(parents=True, exist_ok=True)
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
 
-.stApp {
-    background: #070b11;
-    color: #c9d8e8;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* =========================================================
+   BASE
+========================================================= */
+
+.stApp{
+    background:#030712;
+    color:#dbeafe;
 }
 
-#MainMenu, footer, header {
-    visibility: hidden;
+html, body, [class*="css"]{
+    font-family:'Inter',sans-serif;
 }
 
-.block-container {
-    padding: 1.5rem 2rem 2rem 2rem !important;
-    max-width: 100% !important;
+#MainMenu,
+footer,
+header{
+    visibility:hidden;
 }
 
-h1, h2, h3 {
-    font-family: 'Orbitron', monospace !important;
+.block-container{
+    padding-top:0.8rem !important;
+    padding-bottom:0.8rem !important;
+    padding-left:1rem !important;
+    padding-right:1rem !important;
+    max-width:100% !important;
 }
 
-.navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 28px;
-    background: #0c1420;
-    border: 1px solid #1a2d45;
-    border-radius: 10px;
-    margin-bottom: 22px;
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 24px;
+
+    background:
+    linear-gradient(
+        135deg,
+        #0b1120 0%,
+        #0f172a 50%,
+        #111827 100%
+    );
+
+    border:1px solid #1e293b;
+    border-radius:16px;
+
+    margin-bottom:14px;
+
+    box-shadow:
+    0 0 18px rgba(0,229,255,.08);
 }
 
-.nav-title {
-    font-family: 'Orbitron', monospace;
-    font-size: 1.2rem;
-    font-weight: 900;
-    color: #ffffff;
-    letter-spacing: 4px;
+.nav-left{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
 }
 
-.nav-sub {
-    font-size: 0.65rem;
-    color: #4a6a8a;
-    letter-spacing: 2px;
-    margin-top: 3px;
+.nav-title{
+    font-family:'Orbitron',monospace;
+    font-size:1.45rem;
+    font-weight:900;
+    letter-spacing:3px;
+    color:#ffffff;
 }
 
-.pill {
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-family: 'Orbitron', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 1.5px;
-    font-weight: 700;
+.nav-sub{
+    font-size:.62rem;
+    color:#4f78a3;
+    letter-spacing:2px;
 }
 
-.pill-on {
-    background: rgba(0,255,128,0.1);
-    border: 1px solid #00ff80;
-    color: #00ff80;
+.nav-right{
+    display:flex;
+    align-items:center;
+    gap:14px;
 }
 
-.pill-off {
-    background: rgba(255,60,60,0.1);
-    border: 1px solid #ff3c3c;
-    color: #ff3c3c;
+.pill{
+    padding:6px 16px;
+    border-radius:20px;
+
+    font-family:'Orbitron',monospace;
+    font-size:.62rem;
+    font-weight:700;
+    letter-spacing:1px;
 }
 
-.metric-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 22px;
+.pill-on{
+    background:rgba(0,255,157,.10);
+    border:1px solid #00ff9d;
+    color:#00ff9d;
 }
 
-.mc {
-    background: #0c1420;
-    border: 1px solid #1a2d45;
-    border-radius: 10px;
-    padding: 20px;
-    position: relative;
-    overflow: hidden;
+.pill-off{
+    background:rgba(255,59,92,.10);
+    border:1px solid #ff3b5c;
+    color:#ff3b5c;
 }
 
-.mc::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
+.nav-time{
+    font-size:.65rem;
+    color:#64748b;
+    letter-spacing:1px;
 }
 
-.mc-b::before { background: linear-gradient(90deg,#0066ff,#00c8ff); }
-.mc-r::before { background: linear-gradient(90deg,#ff1744,#ff6d83); }
-.mc-g::before { background: linear-gradient(90deg,#00c853,#69ff90); }
-.mc-y::before { background: linear-gradient(90deg,#ffb300,#ffe57f); }
+/* =========================================================
+   MÉTRICAS
+========================================================= */
 
-.mc-lbl {
-    font-size: 0.6rem;
-    color: #3a5a7a;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
+.metric-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:14px;
 }
 
-.mc-val {
-    font-family: 'Orbitron', monospace;
-    font-size: 1.9rem;
-    font-weight: 900;
-    color: #ffffff;
+.mc{
+    position:relative;
+
+    background:
+    linear-gradient(
+        145deg,
+        #0b1120,
+        #0d1726
+    );
+
+    border:1px solid #1e293b;
+    border-radius:16px;
+
+    padding:14px;
+
+    min-height:95px;
+
+    overflow:hidden;
+
+    transition:.25s ease;
+
+    box-shadow:
+    0 0 15px rgba(0,229,255,.05);
 }
 
-.mc-sub {
-    font-size: 0.65rem;
-    color: #2a4a6a;
-    margin-top: 6px;
+.mc:hover{
+    transform:translateY(-3px);
+
+    border-color:#00e5ff;
+
+    box-shadow:
+    0 0 24px rgba(0,229,255,.14);
 }
 
-.panel {
-    background: #0c1420;
-    border: 1px solid #1a2d45;
-    border-radius: 10px;
-    padding: 18px;
+.mc::before{
+    content:'';
+
+    position:absolute;
+
+    top:0;
+    left:0;
+    right:0;
+
+    height:3px;
 }
 
-.p-hdr {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
+.mc-b::before{
+    background:
+    linear-gradient(
+        90deg,
+        #2563eb,
+        #00e5ff
+    );
 }
 
-.p-ttl {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: #6a8aaa;
-    letter-spacing: 3px;
+.mc-r::before{
+    background:
+    linear-gradient(
+        90deg,
+        #ff1744,
+        #ff6b81
+    );
 }
 
-.badge-live {
-    font-size: .6rem;
-    padding: 3px 10px;
-    border-radius: 10px;
-    background: rgba(255,50,50,.15);
-    border: 1px solid #ff3c3c;
-    color: #ff3c3c;
-    letter-spacing: 1px;
+.mc-g::before{
+    background:
+    linear-gradient(
+        90deg,
+        #00c853,
+        #00ff9d
+    );
 }
 
-.badge-std {
-    font-size: .6rem;
-    padding: 3px 10px;
-    border-radius: 10px;
-    background: rgba(60,60,60,.2);
-    border: 1px solid #333;
-    color: #777;
-    letter-spacing: 1px;
+.mc-y::before{
+    background:
+    linear-gradient(
+        90deg,
+        #ffb300,
+        #ffe082
+    );
 }
+
+.mc-lbl{
+    font-size:.55rem;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    color:#4f78a3;
+
+    margin-bottom:10px;
+}
+
+.mc-val{
+    font-family:'Orbitron',monospace;
+    font-size:1.55rem;
+    font-weight:900;
+    color:#ffffff;
+}
+
+.mc-sub{
+    margin-top:6px;
+
+    font-size:.62rem;
+    color:#3d5c7a;
+}
+
+/* =========================================================
+   PANELES
+========================================================= */
+
+.panel{
+    background:
+    linear-gradient(
+        145deg,
+        #0b1120,
+        #0d1726
+    );
+
+    border:1px solid #1e293b;
+    border-radius:16px;
+
+    padding:14px;
+
+    box-shadow:
+    0 0 20px rgba(0,229,255,.05);
+}
+
+.p-hdr{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:10px;
+}
+
+.p-ttl{
+    font-family:'Orbitron',monospace;
+    font-size:.72rem;
+    font-weight:700;
+
+    color:#8ab4f8;
+
+    letter-spacing:3px;
+}
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.badge-live{
+    padding:4px 12px;
+
+    border-radius:20px;
+
+    background:rgba(255,59,92,.10);
+
+    border:1px solid #ff3b5c;
+
+    color:#ff3b5c;
+
+    font-size:.58rem;
+
+    font-family:'Orbitron',monospace;
+    letter-spacing:1px;
+}
+
+.badge-std{
+    padding:4px 12px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid #334155;
+
+    color:#94a3b8;
+
+    font-size:.58rem;
+
+    font-family:'Orbitron',monospace;
+    letter-spacing:1px;
+}
+
+/* =========================================================
+   FEED OFF
+========================================================= */
 
 .feed-off {
-    background: #060a10;
-    border: 1px dashed #192a3a;
-    border-radius: 8px;
-    height: 420px;
+    background: radial-gradient(circle at center, #0b1120 0%, #05080d 70%);
+    border: 1px dashed #1e3a5f;
+    border-radius: 14px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: unset;
+    max-height: unset;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     gap: 10px;
+};
+
+    border:1px dashed #1d3554;
+
+    border-radius:16px;
+
+    min-height:420px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    gap:10px;
 }
 
-.fo-ico {
-    font-size: 3rem;
-    opacity: .15;
+.fo-ico{
+    font-size:3rem;
+    opacity:.15;
 }
 
-.fo-ttl {
-    font-family: 'Orbitron', monospace;
-    font-size: .72rem;
-    color: #1e3a5a;
-    letter-spacing: 3px;
+.fo-ttl{
+    font-family:'Orbitron',monospace;
+    font-size:.75rem;
+
+    color:#2f5d8d;
+
+    letter-spacing:3px;
 }
 
-.fo-hint {
-    font-size: .62rem;
-    color: #152535;
-    letter-spacing: 1px;
+.fo-hint{
+    font-size:.62rem;
+    color:#2b4257;
 }
 
-div[data-testid="stButton"] > button {
-    font-family: 'Orbitron', monospace !important;
-    font-weight: 700 !important;
-    letter-spacing: 2px !important;
-    font-size: .78rem !important;
-    border-radius: 8px !important;
-    height: 46px !important;
-    width: 100% !important;
+/* =========================================================
+   BOTONES
+========================================================= */
+
+div[data-testid="stButton"] > button{
+
+    background:
+    linear-gradient(
+        90deg,
+        #ff1744,
+        #ff4d6d
+    ) !important;
+
+    border:none !important;
+
+    color:white !important;
+
+    border-radius:10px !important;
+
+    height:46px !important;
+
+    font-family:'Orbitron',monospace !important;
+    font-size:.78rem !important;
+    font-weight:700 !important;
+    letter-spacing:2px !important;
+
+    transition:.2s ease;
 }
 
-.sbar {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    padding: 8px 14px;
-    background: #060a10;
-    border: 1px solid #192a3a;
-    border-radius: 6px;
-    margin-top: 10px;
+div[data-testid="stButton"] > button:hover{
+
+    transform:translateY(-1px);
+
+    box-shadow:
+    0 0 18px rgba(255,59,92,.25);
 }
 
-.si {
-    font-family: 'Orbitron', monospace;
-    font-size: .6rem;
-    color: #3a5a7a;
-    letter-spacing: 1.5px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+/* =========================================================
+   DOWNLOAD BUTTON
+========================================================= */
+
+.stDownloadButton > button{
+
+    background:
+    linear-gradient(
+        90deg,
+        #0ea5e9,
+        #2563eb
+    ) !important;
+
+    border:none !important;
+
+    color:white !important;
+
+    border-radius:10px !important;
+
+    height:44px !important;
+
+    font-weight:700 !important;
+
+    transition:.2s ease;
 }
 
-.dot-g {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #00c853;
-    box-shadow: 0 0 7px #00c853;
+.stDownloadButton > button:hover{
+
+    box-shadow:
+    0 0 18px rgba(14,165,233,.25);
 }
 
-.dot-r {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #ff3c3c;
+/* =========================================================
+   SLIDER
+========================================================= */
+
+.stSlider label{
+    color:#ffffff !important;
+    font-size:.72rem !important;
+    font-weight:700 !important;
 }
 
-.si-val {
-    color: #00c8ff;
+/* =========================================================
+   STATUS BAR
+========================================================= */
+
+.sbar{
+
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+
+    gap:16px;
+
+    padding:9px 14px;
+
+    margin-top:8px;
+
+    background:#060a10;
+
+    border:1px solid #1d3554;
+    border-radius:8px;
 }
 
-.bbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 20px;
-    background: #0c1420;
-    border: 1px solid #1a2d45;
-    border-radius: 10px;
+.si{
+
+    display:flex;
+    align-items:center;
+    gap:6px;
+
+    font-family:'Orbitron',monospace;
+
+    font-size:.58rem;
+
+    color:#4f78a3;
+
+    letter-spacing:1px;
 }
 
-.bbar-txt {
-    font-size: .65rem;
-    color: #2a4a6a;
-    letter-spacing: 1px;
+.si-val{
+    color:#00e5ff;
 }
+
+.dot-g{
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#00ff9d;
+
+    box-shadow:
+    0 0 10px #00ff9d;
+}
+
+.dot-r{
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#ff3b5c;
+
+    box-shadow:
+    0 0 10px #ff3b5c;
+}
+
+/* =========================================================
+   DATAFRAME
+========================================================= */
+
+div[data-testid="stDataFrame"]{
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    border:1px solid #1e293b;
+
+    box-shadow:
+    0 0 14px rgba(0,229,255,.04);
+}
+
+/* =========================================================
+   PLOTLY
+========================================================= */
+
+.js-plotly-plot{
+
+    border:1px solid #1e293b;
+
+    border-radius:14px;
+
+    padding:8px;
+
+    background:#0b1120;
+
+    box-shadow:
+    0 0 12px rgba(0,229,255,.04);
+}
+
+/* =========================================================
+   BOTTOM BAR
+========================================================= */
+
+.bbar{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:10px 18px;
+
+    min-height:45px;
+
+    background:
+    linear-gradient(
+        145deg,
+        #0b1120,
+        #0d1726
+    );
+
+    border:1px solid #1e293b;
+    border-radius:12px;
+
+    margin-top:10px;
+}
+
+.bbar-txt{
+
+    color:#4f78a3;
+
+    font-size:.62rem;
+
+    letter-spacing:1px;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#030712;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#1e293b;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#334155;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -338,6 +674,7 @@ def abrir_camara():
         cap.release()
         return None
 
+    # Captura estable; el ajuste visual se hace después a 16:9
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
     cap.set(cv2.CAP_PROP_FPS, 30)
@@ -351,6 +688,24 @@ def cerrar_camara():
     if st.session_state.cap is not None:
         st.session_state.cap.release()
         st.session_state.cap = None
+
+
+def ajustar_frame_16_9(frame):
+    alto, ancho = frame.shape[:2]
+
+    nuevo_alto = int(ancho * 9 / 16)
+
+    if nuevo_alto <= alto:
+        y1 = (alto - nuevo_alto) // 2
+        frame = frame[y1:y1 + nuevo_alto, :]
+    else:
+        nuevo_ancho = int(alto * 16 / 9)
+        x1 = (ancho - nuevo_ancho) // 2
+        frame = frame[:, x1:x1 + nuevo_ancho]
+
+    frame = cv2.resize(frame, (960, 540))
+
+    return frame
 
 
 def analizar_incumplimientos(results):
@@ -421,8 +776,6 @@ def convertir_excel(datos):
         )
 
     return buffer.getvalue()
-        
-
 # ═══════════════════════════════════════════════════════════
 # DATOS
 # ═══════════════════════════════════════════════════════════
@@ -492,7 +845,7 @@ st.markdown(f"""
 # CUERPO PRINCIPAL
 # ═══════════════════════════════════════════════════════════
 
-col_cam, col_tbl = st.columns([1.65, 1], gap="medium")
+col_cam, col_tbl = st.columns([2.1, 1], gap="large")
 
 with col_cam:
     live_badge = '<span class="badge-live">● REC</span>' if st.session_state.cam_on else '<span class="badge-std">STANDBY</span>'
@@ -564,13 +917,13 @@ with col_tbl:
     st.markdown("""
     <div class="panel" style="padding-bottom:10px">
       <div class="p-hdr">
-        <div class="p-ttl">📋 ÚLTIMAS INCIDENCIAS</div>
+        <div class="p-ttl">📋 ÚLTIMAS INCIDENCIAS ÁREA DE TORNO  </div>
       </div>
     </div>
     """, unsafe_allow_html=True)
 
     if not df.empty:
-        columnas = [c for c in ["nombre", "tipo_incidencia", "hora", "area"] if c in df.columns]
+        columnas = [c for c in ["nombre", "tipo_incidencia", "hora"] if c in df.columns]
 
         st.dataframe(
             df[columnas].tail(14).reset_index(drop=True),
@@ -604,7 +957,8 @@ def camera_loop():
             st.warning("❌ No se pudo leer la cámara.")
             break
 
-        frame = cv2.resize(frame, (640, 480))
+        # Ajusta el frame al mismo formato visual del dashboard
+        frame = ajustar_frame_16_9(frame)
 
         results = model.predict(
             source=frame,
@@ -648,7 +1002,8 @@ def camera_loop():
         frame_slot.image(
             rgb,
             channels="RGB",
-            use_container_width=True
+            use_container_width=True,
+            output_format="JPEG"
         )
 
         sbar_slot.markdown(f"""
@@ -657,7 +1012,7 @@ def camera_loop():
           <div class="si">FPS <span class="si-val">{st.session_state.fps:.1f}</span></div>
           <div class="si">DETECCIONES <span class="si-val">{detecciones}</span></div>
           <div class="si">CONF <span class="si-val">{st.session_state.conf_val:.2f}</span></div>
-          <div class="si">RES <span class="si-val">640x480</span></div>
+          <div class="si">RES <span class="si-val">960x540</span></div>
           <div class="si">IMG <span class="si-val">416</span></div>
           <div class="si">{datetime.now().strftime('%H:%M:%S')}</div>
         </div>
@@ -666,6 +1021,7 @@ def camera_loop():
         time.sleep(0.01)
 
     cerrar_camara()
+
 
 if st.session_state.cam_on:
     camera_loop()
@@ -695,25 +1051,29 @@ if not df.empty:
 # BARRA FINAL
 # ═══════════════════════════════════════════════════════════
 
-st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
+st.markdown("<div style='height:14px'></div>", unsafe_allow_html=True)
 
-bc1, bc2, bc3 = st.columns([1, 1, 3])
+bc1, bc2 = st.columns([1, 4])
 
 with bc1:
     if not df.empty:
         st.download_button(
-            "📥 Descargar Excel",
+            "📥 Exportar reporte",
             data=convertir_excel(datos),
-            file_name=f"EPP_{datetime.now().strftime('%Y%m%d')}.xlsx",
+            file_name=f"EPP_REPORTE_{datetime.now().strftime('%Y%m%d')}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             use_container_width=True,
         )
 
-
-with bc3:
+with bc2:
     st.markdown(f"""
     <div class="bbar">
-      <span class="bbar-txt">EPP SCANNER v2.1 · YOLO · Taller de Torno</span>
-      <span class="bbar-txt">{datetime.now().strftime('%d/%m/%Y %H:%M:%S')}</span>
+      <span class="bbar-txt">
+        EPP SCANNER · MONITOREO INTELIGENTE DE EQUIPO DE PROTECCIÓN PERSONAL · ÁREA DE TORNO
+      </span>
+
+      <span class="bbar-txt">
+        {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}
+      </span>
     </div>
     """, unsafe_allow_html=True)
