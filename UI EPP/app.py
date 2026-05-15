@@ -349,25 +349,59 @@ def cerrar_camara():
         st.session_state.cap.release()
         st.session_state.cap = None
 
-def guardar_captura_si_aplica(frame, detecciones):
-    if detecciones <= 0:
+def analizar_incumplimientos(results):
+    clases_detectadas = []
+
+    if results[0].boxes is None:
+        return []
+
+    for box in results[0].boxes:
+        cls_id = int(box.cls[0])
+        nombre_clase = results[0].names[cls_id]
+        clases_detectadas.append(nombre_clase)
+
+    hay_persona_o_epp = any(
+        clase in clases_detectadas
+        for clase in ["Person", "Hard_hat", "Vest", "Mask", "Gloves"]
+    )
+
+    if not hay_persona_o_epp:
+        return []
+
+    incumplimientos = []
+
+    if "Hard_hat" not in clases_detectadas:
+        incumplimientos.append("Sin casco")
+
+    if "Vest" not in clases_detectadas:
+        incumplimientos.append("Sin chaleco")
+
+    if "Mask" not in clases_detectadas:
+        incumplimientos.append("Sin mascarilla")
+
+    if "Gloves" not in clases_detectadas:
+        incumplimientos.append("Sin guantes")
+
+    return incumplimientos
+
+
+def guardar_captura_si_aplica(frame, results):
+    incumplimientos = analizar_incumplimientos(results)
+
+    if not incumplimientos:
         return
 
     ahora = time.time()
 
-    if ahora - st.session_state.last_save >= 3:
-        nombre_archivo = SAVE_DIR / f"incidencia_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
+    # Guarda máximo una incidencia cada 5 segundos
+    if ahora - st.session_state.last_save >= 5:
+        texto_incumplimiento = "_".join(incumplimientos).replace(" ", "_")
+
+        nombre_archivo = SAVE_DIR / f"incidencia_{texto_incumplimiento}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
+
         cv2.imwrite(str(nombre_archivo), frame)
+
         st.session_state.last_save = ahora
-
-@st.cache_data
-def convertir_excel(datos):
-    buffer = io.BytesIO()
-
-    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
-        pd.DataFrame(datos).to_excel(writer, index=False, sheet_name="EPP_Reporte")
-
-    return buffer.getvalue()
 
 # ═══════════════════════════════════════════════════════════
 # DATOS
@@ -569,7 +603,7 @@ def camera_loop():
 
         guardar_captura_si_aplica(
             annotated_frame,
-            detecciones
+            results
         )
 
         tiempo_actual = time.time()
