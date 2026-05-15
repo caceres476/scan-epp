@@ -813,7 +813,7 @@ st.markdown(f"""
 total = len(df) if not df.empty else 0
 hoy = datetime.now().strftime("%Y-%m-%d")
 alertas_hoy = len(df[df["fecha"] == hoy]) if not df.empty and "fecha" in df.columns else 0
-conf_prom = f"{int(df['confianza_rekognition'].mean())}%" if not df.empty and "confianza_rekognition" in df.columns else "—"
+conf_prom = f"{int(st.session_state.conf_val * 100)}%"
 area_critica = df["area"].mode()[0] if not df.empty and "area" in df.columns else "—"
 
 st.markdown(f"""
@@ -884,14 +884,15 @@ with col_cam:
                 st.rerun()
 
     with b2:
-        st.session_state.conf_val = st.slider(
-            "Confianza mínima",
-            0.30,
-            0.95,
-            st.session_state.conf_val,
-            0.05,
-            format="%.2f",
-        )
+        st.slider(
+        "Confianza mínima",
+         0.30,
+         0.95,
+        0.70,
+        0.05,
+        format="%.2f",
+        key="conf_val"
+)
 
     frame_slot = st.empty()
     sbar_slot = st.empty()
