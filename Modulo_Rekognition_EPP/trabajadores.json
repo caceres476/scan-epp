@@ -1,0 +1,22 @@
+{
+    "c454bd73-210b-49ba-9f20-a7af019a06b3": {
+        "nombre": "carlos",
+        "imagen_registro": "imagenes_registro/EMP001_carlos.jpg"
+    },
+    "807edb6f-2c83-45cc-acb8-78fa78665399": {
+        "nombre": "mynor_caceres",
+        "imagen_registro": "imagenes_registro/EMP004_mynor.png"
+    },
+    "a9cdf8c5-8b6d-4cff-b8e0-ea7a4ad3291a": {
+        "nombre": "cris",
+        "imagen_registro": "imagenes_registro/EMP001_cris.jpg"
+    },
+    "36aa796c-4d91-494e-b5af-1e1619a8d764": {
+        "nombre": "german",
+        "imagen_registro": "imagenes_registro/EMP005_german.png"
+    },
+    "a615fca2-9e02-4121-9132-277b2d3f9c43": {
+        "nombre": "emp006",
+        "imagen_registro": "imagenes_registro/EMP006.jpg"
+    }
+}

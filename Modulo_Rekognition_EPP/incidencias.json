@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1,
+        "trabajador": "carlos",
+        "tipo_incidencia": "sin casco",
+        "confianza": 100.0,
+        "imagen": "imagenes_incidentes/incidente_001.jpg",
+        "fecha": "2026-05-13",
+        "hora": "23:02:31"
+    },
+    {
+        "id": 2,
+        "trabajador": "carlos",
+        "tipo_incidencia": "sin casco",
+        "confianza": 100.0,
+        "imagen": "imagenes_incidentes/sin_casco_001.jpg",
+        "fecha": "2026-05-13",
+        "hora": "23:15:56"
+    },
+    {
+        "id": 3,
+        "trabajador": "mynor_caceres",
+        "tipo_incidencia": "incidencia de EPP",
+        "confianza": 100.0,
+        "imagen": "imagenes_incidentes/EMP004_mynor.png",
+        "fecha": "2026-05-13",
+        "hora": "23:21:28"
+    },
+    {
+        "id": 4,
+        "trabajador": "carlos",
+        "tipo_incidencia": "sin casco",
+        "confianza": 100.0,
+        "imagen": "imagenes_incidentes/sin_casco_001.jpg",
+        "fecha": "2026-05-13",
+        "hora": "23:21:29"
+    },
+    {
+        "id": 5,
+        "trabajador": "cris",
+        "tipo_incidencia": "incidencia de EPP",
+        "confianza": 100.0,
+        "imagen": "imagenes_incidentes/EMP001_cris.jpg",
+        "fecha": "2026-05-13",
+        "hora": "23:30:21"
+    },
+    {
+        "id": 6,
+        "trabajador": "mynor_caceres",
+        "tipo_incidencia": "incidencia de EPP",
+        "confianza": 100.0,
+        "imagen": "imagenes_incidentes/005_mynor.png",
+        "fecha": "2026-05-13",
+        "hora": "23:46:53"
+    },
+    {
+        "id": 7,
+        "trabajador": "mynor_caceres",
+        "tipo_incidencia": "sin lentes",
+        "confianza": 100.0,
+        "imagen": "imagenes_incidentes/sin_lentes_001.png",
+        "fecha": "2026-05-13",
+        "hora": "23:51:15"
+    },
+    {
+        "id": 8,
+        "trabajador": "german",
+        "tipo_incidencia": "sin casco",
+        "confianza": 100.0,
+        "imagen": "imagenes_incidentes/sin_casco_0008.png",
+        "fecha": "2026-05-14",
+        "hora": "00:08:16"
+    },
+    {
+        "id": 9,
+        "trabajador": "german",
+        "tipo_incidencia": "sin casco",
+        "confianza": 100.0,
+        "imagen": "imagenes_incidentes/sin_casco_0008 - copia.png",
+        "fecha": "2026-05-14",
+        "hora": "00:15:25"
+    },
+    {
+        "id": 10,
+        "trabajador": "emp006",
+        "tipo_incidencia": "sin casco",
+        "confianza": 100.0,
+        "imagen": "imagenes_incidentes/sin_casco.jpg",
+        "fecha": "2026-05-14",
+        "hora": "21:15:34"
+    }
+]
