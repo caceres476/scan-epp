@@ -320,6 +320,7 @@ def cargar_datos():
             return json.load(f)
     return []
 
+
 @st.cache_resource
 def cargar_modelo():
     from ultralytics import YOLO
@@ -328,6 +329,7 @@ def cargar_modelo():
         raise FileNotFoundError(f"No se encontró el modelo en: {MODEL_PATH}")
 
     return YOLO(str(MODEL_PATH))
+
 
 def abrir_camara():
     cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
@@ -342,12 +344,14 @@ def abrir_camara():
 
     return cap
 
+
 def cerrar_camara():
     st.session_state.cam_on = False
 
     if st.session_state.cap is not None:
         st.session_state.cap.release()
         st.session_state.cap = None
+
 
 def analizar_incumplimientos(results):
     clases_detectadas = []
@@ -393,7 +397,6 @@ def guardar_captura_si_aplica(frame, results):
 
     ahora = time.time()
 
-    # Guarda máximo una incidencia cada 5 segundos
     if ahora - st.session_state.last_save >= 5:
         texto_incumplimiento = "_".join(incumplimientos).replace(" ", "_")
 
@@ -402,6 +405,23 @@ def guardar_captura_si_aplica(frame, results):
         cv2.imwrite(str(nombre_archivo), frame)
 
         st.session_state.last_save = ahora
+
+
+@st.cache_data
+def convertir_excel(datos):
+    buffer = io.BytesIO()
+
+    df_excel = pd.DataFrame(datos)
+
+    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+        df_excel.to_excel(
+            writer,
+            index=False,
+            sheet_name="EPP_Reporte"
+        )
+
+    return buffer.getvalue()
+        
 
 # ═══════════════════════════════════════════════════════════
 # DATOS
@@ -689,9 +709,6 @@ with bc1:
             use_container_width=True,
         )
 
-with bc2:
-    with st.expander("🔍 JSON crudo"):
-        st.json(datos, expanded=False)
 
 with bc3:
     st.markdown(f"""
