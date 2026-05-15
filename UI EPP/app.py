@@ -7,6 +7,7 @@ import time
 import io
 import pathlib
 from datetime import datetime
+import plotly.graph_objects as go
 
 # ═══════════════════════════════════════════════════════════
 # CONFIGURACIÓN BASE
@@ -34,319 +35,190 @@ SAVE_DIR.mkdir(parents=True, exist_ok=True)
 
 st.markdown("""
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* =========================================================
-   BASE
-========================================================= */
-
-.stApp{
-    background:#030712;
-    color:#dbeafe;
+.stApp {
+    background: radial-gradient(circle at top, #08111f 0%, #030712 45%, #020617 100%);
+    color: #dbeafe;
 }
 
-html, body, [class*="css"]{
-    font-family:'Inter',sans-serif;
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
 }
 
-#MainMenu,
-footer,
-header{
-    visibility:hidden;
+#MainMenu, footer, header {
+    visibility: hidden;
 }
 
-.block-container{
-    padding-top:0.8rem !important;
-    padding-bottom:0.8rem !important;
-    padding-left:1rem !important;
-    padding-right:1rem !important;
-    max-width:100% !important;
+.block-container {
+    padding-top: 0.8rem !important;
+    padding-bottom: 0.8rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    max-width: 100% !important;
 }
 
-/* =========================================================
-   NAVBAR
-========================================================= */
-
-.navbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:18px 24px;
-
-    background:
-    linear-gradient(
-        135deg,
-        #0b1120 0%,
-        #0f172a 50%,
-        #111827 100%
-    );
-
-    border:1px solid #1e293b;
-    border-radius:16px;
-
-    margin-bottom:14px;
-
-    box-shadow:
-    0 0 18px rgba(0,229,255,.08);
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, #0b1120 0%, #0f172a 50%, #111827 100%);
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 0 18px rgba(0,229,255,.08);
 }
 
-.nav-left{
-    display:flex;
-    flex-direction:column;
-    gap:4px;
+.nav-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.45rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #ffffff;
 }
 
-.nav-title{
-    font-family:'Orbitron',monospace;
-    font-size:1.45rem;
-    font-weight:900;
-    letter-spacing:3px;
-    color:#ffffff;
+.nav-sub {
+    font-size: .62rem;
+    color: #4f78a3;
+    letter-spacing: 2px;
+    margin-top: 4px;
 }
 
-.nav-sub{
-    font-size:.62rem;
-    color:#4f78a3;
-    letter-spacing:2px;
+.pill {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-family: 'Orbitron', monospace;
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
 
-.nav-right{
-    display:flex;
-    align-items:center;
-    gap:14px;
+.pill-on {
+    background: rgba(0,255,157,.10);
+    border: 1px solid #00ff9d;
+    color: #00ff9d;
 }
 
-.pill{
-    padding:6px 16px;
-    border-radius:20px;
-
-    font-family:'Orbitron',monospace;
-    font-size:.62rem;
-    font-weight:700;
-    letter-spacing:1px;
+.pill-off {
+    background: rgba(255,59,92,.10);
+    border: 1px solid #ff3b5c;
+    color: #ff3b5c;
 }
 
-.pill-on{
-    background:rgba(0,255,157,.10);
-    border:1px solid #00ff9d;
-    color:#00ff9d;
+/* MÉTRICAS */
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 14px;
 }
 
-.pill-off{
-    background:rgba(255,59,92,.10);
-    border:1px solid #ff3b5c;
-    color:#ff3b5c;
+.mc {
+    position: relative;
+    background: linear-gradient(145deg, #0b1120, #0d1726);
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 14px;
+    min-height: 95px;
+    overflow: hidden;
+    transition: .25s ease;
+    box-shadow: 0 0 15px rgba(0,229,255,.05);
 }
 
-.nav-time{
-    font-size:.65rem;
-    color:#64748b;
-    letter-spacing:1px;
+.mc:hover {
+    transform: translateY(-3px);
+    border-color: #00e5ff;
+    box-shadow: 0 0 24px rgba(0,229,255,.14);
 }
 
-/* =========================================================
-   MÉTRICAS
-========================================================= */
-
-.metric-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    margin-bottom:14px;
+.mc::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
 }
 
-.mc{
-    position:relative;
+.mc-b::before { background: linear-gradient(90deg,#2563eb,#00e5ff); }
+.mc-r::before { background: linear-gradient(90deg,#ff1744,#ff6b81); }
+.mc-g::before { background: linear-gradient(90deg,#00c853,#00ff9d); }
+.mc-y::before { background: linear-gradient(90deg,#ffb300,#ffe082); }
 
-    background:
-    linear-gradient(
-        145deg,
-        #0b1120,
-        #0d1726
-    );
-
-    border:1px solid #1e293b;
-    border-radius:16px;
-
-    padding:14px;
-
-    min-height:95px;
-
-    overflow:hidden;
-
-    transition:.25s ease;
-
-    box-shadow:
-    0 0 15px rgba(0,229,255,.05);
+.mc-lbl {
+    font-size: .55rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #4f78a3;
+    margin-bottom: 10px;
 }
 
-.mc:hover{
-    transform:translateY(-3px);
-
-    border-color:#00e5ff;
-
-    box-shadow:
-    0 0 24px rgba(0,229,255,.14);
+.mc-val {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.55rem;
+    font-weight: 900;
+    color: #ffffff;
 }
 
-.mc::before{
-    content:'';
-
-    position:absolute;
-
-    top:0;
-    left:0;
-    right:0;
-
-    height:3px;
+.mc-sub {
+    margin-top: 6px;
+    font-size: .62rem;
+    color: #3d5c7a;
 }
 
-.mc-b::before{
-    background:
-    linear-gradient(
-        90deg,
-        #2563eb,
-        #00e5ff
-    );
+/* PANELES */
+.panel {
+    background: linear-gradient(145deg, #0b1120, #0d1726);
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 14px;
+    box-shadow: 0 0 20px rgba(0,229,255,.05);
 }
 
-.mc-r::before{
-    background:
-    linear-gradient(
-        90deg,
-        #ff1744,
-        #ff6b81
-    );
+.p-hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.mc-g::before{
-    background:
-    linear-gradient(
-        90deg,
-        #00c853,
-        #00ff9d
-    );
+.p-ttl {
+    font-family: 'Orbitron', monospace;
+    font-size: .72rem;
+    font-weight: 700;
+    color: #8ab4f8;
+    letter-spacing: 3px;
 }
 
-.mc-y::before{
-    background:
-    linear-gradient(
-        90deg,
-        #ffb300,
-        #ffe082
-    );
+/* BADGES */
+.badge-live {
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(255,59,92,.10);
+    border: 1px solid #ff3b5c;
+    color: #ff3b5c;
+    font-size: .58rem;
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 1px;
 }
 
-.mc-lbl{
-    font-size:.55rem;
-    text-transform:uppercase;
-    letter-spacing:2px;
-    color:#4f78a3;
-
-    margin-bottom:10px;
+.badge-std {
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid #334155;
+    color: #94a3b8;
+    font-size: .58rem;
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 1px;
 }
 
-.mc-val{
-    font-family:'Orbitron',monospace;
-    font-size:1.55rem;
-    font-weight:900;
-    color:#ffffff;
-}
-
-.mc-sub{
-    margin-top:6px;
-
-    font-size:.62rem;
-    color:#3d5c7a;
-}
-
-/* =========================================================
-   PANELES
-========================================================= */
-
-.panel{
-    background:
-    linear-gradient(
-        145deg,
-        #0b1120,
-        #0d1726
-    );
-
-    border:1px solid #1e293b;
-    border-radius:16px;
-
-    padding:14px;
-
-    box-shadow:
-    0 0 20px rgba(0,229,255,.05);
-}
-
-.p-hdr{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-bottom:10px;
-}
-
-.p-ttl{
-    font-family:'Orbitron',monospace;
-    font-size:.72rem;
-    font-weight:700;
-
-    color:#8ab4f8;
-
-    letter-spacing:3px;
-}
-
-/* =========================================================
-   BADGES
-========================================================= */
-
-.badge-live{
-    padding:4px 12px;
-
-    border-radius:20px;
-
-    background:rgba(255,59,92,.10);
-
-    border:1px solid #ff3b5c;
-
-    color:#ff3b5c;
-
-    font-size:.58rem;
-
-    font-family:'Orbitron',monospace;
-    letter-spacing:1px;
-}
-
-.badge-std{
-    padding:4px 12px;
-
-    border-radius:20px;
-
-    background:rgba(255,255,255,.04);
-
-    border:1px solid #334155;
-
-    color:#94a3b8;
-
-    font-size:.58rem;
-
-    font-family:'Orbitron',monospace;
-    letter-spacing:1px;
-}
-
-/* =========================================================
-   FEED OFF
-========================================================= */
-
+/* FEED APAGADO */
 .feed-off {
     background: radial-gradient(circle at center, #0b1120 0%, #05080d 70%);
-    border: 1px dashed #1e3a5f;
-    border-radius: 14px;
+    border: 1px dashed #1d3554;
+    border-radius: 16px;
     width: 100%;
     aspect-ratio: 16 / 9;
     min-height: unset;
@@ -356,276 +228,165 @@ header{
     justify-content: center;
     align-items: center;
     gap: 10px;
-};
-
-    border:1px dashed #1d3554;
-
-    border-radius:16px;
-
-    min-height:420px;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-
-    gap:10px;
 }
 
-.fo-ico{
-    font-size:3rem;
-    opacity:.15;
+.fo-ico {
+    font-size: 3rem;
+    opacity: .15;
 }
 
-.fo-ttl{
-    font-family:'Orbitron',monospace;
-    font-size:.75rem;
-
-    color:#2f5d8d;
-
-    letter-spacing:3px;
+.fo-ttl {
+    font-family: 'Orbitron', monospace;
+    font-size: .75rem;
+    color: #2f5d8d;
+    letter-spacing: 3px;
 }
 
-.fo-hint{
-    font-size:.62rem;
-    color:#2b4257;
+.fo-hint {
+    font-size: .62rem;
+    color: #2b4257;
 }
 
-/* =========================================================
-   BOTONES
-========================================================= */
-
-div[data-testid="stButton"] > button{
-
-    background:
-    linear-gradient(
-        90deg,
-        #ff1744,
-        #ff4d6d
-    ) !important;
-
-    border:none !important;
-
-    color:white !important;
-
-    border-radius:10px !important;
-
-    height:46px !important;
-
-    font-family:'Orbitron',monospace !important;
-    font-size:.78rem !important;
-    font-weight:700 !important;
-    letter-spacing:2px !important;
-
-    transition:.2s ease;
+/* BOTONES */
+div[data-testid="stButton"] > button {
+    background: linear-gradient(90deg, #ff1744, #ff4d6d) !important;
+    border: none !important;
+    color: white !important;
+    border-radius: 10px !important;
+    height: 46px !important;
+    font-family: 'Orbitron', monospace !important;
+    font-size: .78rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 2px !important;
+    transition: .2s ease;
 }
 
-div[data-testid="stButton"] > button:hover{
-
-    transform:translateY(-1px);
-
-    box-shadow:
-    0 0 18px rgba(255,59,92,.25);
+div[data-testid="stButton"] > button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 18px rgba(255,59,92,.25);
 }
 
-/* =========================================================
-   DOWNLOAD BUTTON
-========================================================= */
-
-.stDownloadButton > button{
-
-    background:
-    linear-gradient(
-        90deg,
-        #0ea5e9,
-        #2563eb
-    ) !important;
-
-    border:none !important;
-
-    color:white !important;
-
-    border-radius:10px !important;
-
-    height:44px !important;
-
-    font-weight:700 !important;
-
-    transition:.2s ease;
+/* SLIDER */
+.stSlider label {
+    color: #ffffff !important;
+    font-size: .72rem !important;
+    font-weight: 700 !important;
 }
 
-.stDownloadButton > button:hover{
-
-    box-shadow:
-    0 0 18px rgba(14,165,233,.25);
+/* STATUS BAR */
+.sbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 9px 14px;
+    margin-top: 8px;
+    background: #060a10;
+    border: 1px solid #1d3554;
+    border-radius: 8px;
 }
 
-/* =========================================================
-   SLIDER
-========================================================= */
-
-.stSlider label{
-    color:#ffffff !important;
-    font-size:.72rem !important;
-    font-weight:700 !important;
+.si {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Orbitron', monospace;
+    font-size: .58rem;
+    color: #4f78a3;
+    letter-spacing: 1px;
 }
 
-/* =========================================================
-   STATUS BAR
-========================================================= */
-
-.sbar{
-
-    display:flex;
-    align-items:center;
-    flex-wrap:wrap;
-
-    gap:16px;
-
-    padding:9px 14px;
-
-    margin-top:8px;
-
-    background:#060a10;
-
-    border:1px solid #1d3554;
-    border-radius:8px;
+.si-val {
+    color: #00e5ff;
 }
 
-.si{
-
-    display:flex;
-    align-items:center;
-    gap:6px;
-
-    font-family:'Orbitron',monospace;
-
-    font-size:.58rem;
-
-    color:#4f78a3;
-
-    letter-spacing:1px;
+.dot-g {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #00ff9d;
+    box-shadow: 0 0 10px #00ff9d;
 }
 
-.si-val{
-    color:#00e5ff;
+.dot-r {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ff3b5c;
+    box-shadow: 0 0 10px #ff3b5c;
 }
 
-.dot-g{
-    width:7px;
-    height:7px;
-
-    border-radius:50%;
-
-    background:#00ff9d;
-
-    box-shadow:
-    0 0 10px #00ff9d;
+/* TABLA */
+div[data-testid="stDataFrame"] {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #1e293b;
+    box-shadow: 0 0 14px rgba(0,229,255,.04);
 }
 
-.dot-r{
-    width:7px;
-    height:7px;
 
-    border-radius:50%;
 
-    background:#ff3b5c;
-
-    box-shadow:
-    0 0 10px #ff3b5c;
+.chart-title {
+    font-family: 'Orbitron', monospace;
+    font-size: .66rem;
+    color: #fbbf24;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
 }
 
-/* =========================================================
-   DATAFRAME
-========================================================= */
-
-div[data-testid="stDataFrame"]{
-
-    border-radius:14px;
-
-    overflow:hidden;
-
-    border:1px solid #1e293b;
-
-    box-shadow:
-    0 0 14px rgba(0,229,255,.04);
+.js-plotly-plot {
+    background: transparent !important;
 }
 
-/* =========================================================
-   PLOTLY
-========================================================= */
-
-.js-plotly-plot{
-
-    border:1px solid #1e293b;
-
-    border-radius:14px;
-
-    padding:8px;
-
-    background:#0b1120;
-
-    box-shadow:
-    0 0 12px rgba(0,229,255,.04);
+/* BOTÓN DESCARGA */
+.stDownloadButton > button {
+    background: linear-gradient(90deg, #0ea5e9, #2563eb) !important;
+    border: none !important;
+    color: white !important;
+    border-radius: 10px !important;
+    height: 44px !important;
+    font-weight: 700 !important;
 }
 
-/* =========================================================
-   BOTTOM BAR
-========================================================= */
-
-.bbar{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:10px 18px;
-
-    min-height:45px;
-
-    background:
-    linear-gradient(
-        145deg,
-        #0b1120,
-        #0d1726
-    );
-
-    border:1px solid #1e293b;
-    border-radius:12px;
-
-    margin-top:10px;
+.stDownloadButton > button:hover {
+    box-shadow: 0 0 18px rgba(14,165,233,.25);
 }
 
-.bbar-txt{
-
-    color:#4f78a3;
-
-    font-size:.62rem;
-
-    letter-spacing:1px;
+/* BARRA FINAL */
+.bbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    min-height: 45px;
+    background: linear-gradient(145deg, #0b1120, #0d1726);
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    margin-top: 10px;
 }
 
-/* =========================================================
-   SCROLLBAR
-========================================================= */
-
-::-webkit-scrollbar{
-    width:8px;
+.bbar-txt {
+    color: #4f78a3;
+    font-size: .62rem;
+    letter-spacing: 1px;
 }
 
-::-webkit-scrollbar-track{
-    background:#030712;
+::-webkit-scrollbar {
+    width: 8px;
 }
 
-::-webkit-scrollbar-thumb{
-    background:#1e293b;
-    border-radius:10px;
+::-webkit-scrollbar-track {
+    background: #030712;
 }
 
-::-webkit-scrollbar-thumb:hover{
-    background:#334155;
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 10px;
 }
 
+::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -674,7 +435,6 @@ def abrir_camara():
         cap.release()
         return None
 
-    # Captura estable; el ajuste visual se hace después a 16:9
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
     cap.set(cv2.CAP_PROP_FPS, 30)
@@ -692,7 +452,6 @@ def cerrar_camara():
 
 def ajustar_frame_16_9(frame):
     alto, ancho = frame.shape[:2]
-
     nuevo_alto = int(ancho * 9 / 16)
 
     if nuevo_alto <= alto:
@@ -704,7 +463,6 @@ def ajustar_frame_16_9(frame):
         frame = frame[:, x1:x1 + nuevo_ancho]
 
     frame = cv2.resize(frame, (960, 540))
-
     return frame
 
 
@@ -754,18 +512,15 @@ def guardar_captura_si_aplica(frame, results):
 
     if ahora - st.session_state.last_save >= 5:
         texto_incumplimiento = "_".join(incumplimientos).replace(" ", "_")
-
         nombre_archivo = SAVE_DIR / f"incidencia_{texto_incumplimiento}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
 
         cv2.imwrite(str(nombre_archivo), frame)
-
         st.session_state.last_save = ahora
 
 
 @st.cache_data
 def convertir_excel(datos):
     buffer = io.BytesIO()
-
     df_excel = pd.DataFrame(datos)
 
     with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
@@ -776,6 +531,52 @@ def convertir_excel(datos):
         )
 
     return buffer.getvalue()
+
+
+def grafica_horizontal(serie):
+    colores = [
+        "#00E5FF",
+        "#FF3B5C",
+        "#FBBF24",
+        "#00FF9D",
+        "#8B5CF6",
+        "#38BDF8",
+        "#F97316",
+    ]
+
+    serie = serie.sort_values(ascending=True)
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
+        x=serie.values,
+        y=serie.index,
+        orientation="h",
+        marker=dict(
+            color=colores[:len(serie)],
+            line=dict(color="rgba(255,255,255,0.18)", width=1)
+        ),
+        text=serie.values,
+        textposition="inside",
+        insidetextanchor="end",
+        textfont=dict(color="#ffffff", size=12),
+        hovertemplate="<b>%{y}</b><br>Total: %{x}<extra></extra>"
+    ))
+
+    fig.update_layout(
+        height=250,
+        margin=dict(l=10, r=10, t=5, b=5),
+        paper_bgcolor="#0b1120",
+        plot_bgcolor="#0b1120",
+        font=dict(color="#CBD5E1", size=11),
+        xaxis=dict(showgrid=False, zeroline=False, visible=False),
+        yaxis=dict(showgrid=False, zeroline=False, tickfont=dict(color="#C9D8E8", size=11)),
+        bargap=0.35,
+    )
+
+    return fig
+
+
 # ═══════════════════════════════════════════════════════════
 # DATOS
 # ═══════════════════════════════════════════════════════════
@@ -795,11 +596,11 @@ st.markdown(f"""
 <div class="navbar">
   <div>
     <div class="nav-title">🦺 EPP SCANNER</div>
-    <div class="nav-sub">SISTEMA DE DETECCIÓN · TALLER DE TORNO · YOLO</div>
+    <div class="nav-sub">SISTEMA DE DETECCIÓN · ÁREA DE TORNO · YOLO</div>
   </div>
   <div style="display:flex; align-items:center; gap:18px;">
     {pill}
-    <div style="font-family:Orbitron; font-size:.7rem; color:#3a5a7a; letter-spacing:2px;">
+    <div style="font-family:Orbitron; font-size:.7rem; color:#4f78a3; letter-spacing:2px;">
       {datestr} · {nowstr}
     </div>
   </div>
@@ -814,29 +615,29 @@ total = len(df) if not df.empty else 0
 hoy = datetime.now().strftime("%Y-%m-%d")
 alertas_hoy = len(df[df["fecha"] == hoy]) if not df.empty and "fecha" in df.columns else 0
 conf_prom = f"{int(st.session_state.conf_val * 100)}%"
-area_critica = df["area"].mode()[0] if not df.empty and "area" in df.columns else "—"
+area_critica = df["area"].mode()[0] if not df.empty and "area" in df.columns else "Torno"
 
 st.markdown(f"""
 <div class="metric-grid">
   <div class="mc mc-b">
-    <div class="mc-lbl">Total Incidencias</div>
+    <div class="mc-lbl">Total incidencias</div>
     <div class="mc-val">{total}</div>
     <div class="mc-sub">Historial completo</div>
   </div>
   <div class="mc mc-r">
-    <div class="mc-lbl">Alertas Hoy</div>
+    <div class="mc-lbl">Alertas hoy</div>
     <div class="mc-val">{alertas_hoy}</div>
     <div class="mc-sub">Eventos del día</div>
   </div>
   <div class="mc mc-g">
     <div class="mc-lbl">Confianza IA</div>
     <div class="mc-val">{conf_prom}</div>
-    <div class="mc-sub">Promedio registrado</div>
+    <div class="mc-sub">Nivel mínimo de detección</div>
   </div>
   <div class="mc mc-y">
-    <div class="mc-lbl">Área Crítica</div>
-    <div class="mc-val" style="font-size:1.05rem;padding-top:8px">{area_critica}</div>
-    <div class="mc-sub">Mayor recurrencia</div>
+    <div class="mc-lbl">Área monitoreada</div>
+    <div class="mc-val" style="font-size:1.05rem;padding-top:6px">{area_critica}</div>
+    <div class="mc-sub">Zona operativa</div>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -845,13 +646,13 @@ st.markdown(f"""
 # CUERPO PRINCIPAL
 # ═══════════════════════════════════════════════════════════
 
-col_cam, col_tbl = st.columns([2.1, 1], gap="large")
+col_cam, col_tbl = st.columns([2.15, 1], gap="large")
 
 with col_cam:
     live_badge = '<span class="badge-live">● REC</span>' if st.session_state.cam_on else '<span class="badge-std">STANDBY</span>'
 
     st.markdown(f"""
-    <div class="panel" style="padding-bottom:10px">
+    <div class="panel">
       <div class="p-hdr">
         <div class="p-ttl">📡 MONITOREO EN VIVO</div>
         {live_badge}
@@ -859,7 +660,7 @@ with col_cam:
     </div>
     """, unsafe_allow_html=True)
 
-    b1, b2 = st.columns([1, 2])
+    b1, b2 = st.columns([1, 3])
 
     with b1:
         if not st.session_state.cam_on:
@@ -885,14 +686,14 @@ with col_cam:
 
     with b2:
         st.slider(
-        "Confianza mínima",
-         0.30,
-         0.95,
-        0.70,
-        0.05,
-        format="%.2f",
-        key="conf_val"
-)
+            "Confianza mínima",
+            0.30,
+            0.95,
+            0.70,
+            0.05,
+            format="%.2f",
+            key="conf_val"
+        )
 
     frame_slot = st.empty()
     sbar_slot = st.empty()
@@ -916,9 +717,9 @@ with col_cam:
 
 with col_tbl:
     st.markdown("""
-    <div class="panel" style="padding-bottom:10px">
+    <div class="panel">
       <div class="p-hdr">
-        <div class="p-ttl">📋 ÚLTIMAS INCIDENCIAS ÁREA DE TORNO  </div>
+        <div class="p-ttl">📋 ÚLTIMAS INCIDENCIAS ÁREA DE TORNO</div>
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -927,13 +728,117 @@ with col_tbl:
         columnas = [c for c in ["nombre", "tipo_incidencia", "hora"] if c in df.columns]
 
         st.dataframe(
-            df[columnas].tail(14).reset_index(drop=True),
+            df[columnas].tail(12).reset_index(drop=True),
             use_container_width=True,
             hide_index=True,
-            height=440,
+            height=540,
         )
     else:
         st.info("Sin registros aún.")
+# ═══════════════════════════════════════════════════════════
+# GRÁFICAS HORIZONTALES
+# ═══════════════════════════════════════════════════════════
+
+st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
+
+if not df.empty:
+
+    gc1, gc2 = st.columns(2, gap="large")
+
+    # ─────────────────────────────────────────────
+    # GRÁFICA EMPLEADOS
+    # ─────────────────────────────────────────────
+    with gc1:
+
+        with st.container(border=True):
+
+            st.markdown(
+                '<div class="chart-title">◇ INCIDENCIAS POR EMPLEADO</div>',
+                unsafe_allow_html=True
+            )
+
+            if "nombre" in df.columns:
+
+                serie_empleados = (
+                    df["nombre"]
+                    .value_counts()
+                    .head(6)
+                )
+
+                fig_empleados = grafica_horizontal(
+                    serie_empleados
+                )
+
+                st.plotly_chart(
+                    fig_empleados,
+                    use_container_width=True,
+                    config={
+                        "displayModeBar": False
+                    }
+                )
+
+    # ─────────────────────────────────────────────
+    # GRÁFICA ÁREAS
+    # ─────────────────────────────────────────────
+    with gc2:
+
+        with st.container(border=True):
+
+            st.markdown(
+                '<div class="chart-title">◇ INCIDENCIAS POR ÁREA</div>',
+                unsafe_allow_html=True
+            )
+
+            if "area" in df.columns:
+
+                serie_areas = (
+                    df["area"]
+                    .value_counts()
+                    .head(6)
+                )
+
+                fig_areas = grafica_horizontal(
+                    serie_areas
+                )
+
+                st.plotly_chart(
+                    fig_areas,
+                    use_container_width=True,
+                    config={
+                        "displayModeBar": False
+                    }
+                )
+
+# ═══════════════════════════════════════════════════════════
+# BARRA FINAL
+# ═══════════════════════════════════════════════════════════
+
+st.markdown("<div style='height:14px'></div>", unsafe_allow_html=True)
+
+bc1, bc2 = st.columns([1, 4])
+
+with bc1:
+    if not df.empty:
+        st.download_button(
+            "📥 Exportar reporte",
+            data=convertir_excel(datos),
+            file_name=f"EPP_REPORTE_{datetime.now().strftime('%Y%m%d')}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            use_container_width=True,
+        )
+
+with bc2:
+    st.markdown(f"""
+    <div class="bbar">
+      <span class="bbar-txt">
+        EPP SCANNER · MONITOREO INTELIGENTE DE EQUIPO DE PROTECCIÓN PERSONAL · ÁREA DE TORNO
+      </span>
+
+      <span class="bbar-txt">
+        {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}
+      </span>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ═══════════════════════════════════════════════════════════
 # LOOP DE CÁMARA ESTABLE
@@ -958,7 +863,6 @@ def camera_loop():
             st.warning("❌ No se pudo leer la cámara.")
             break
 
-        # Ajusta el frame al mismo formato visual del dashboard
         frame = ajustar_frame_16_9(frame)
 
         results = model.predict(
@@ -1026,55 +930,3 @@ def camera_loop():
 
 if st.session_state.cam_on:
     camera_loop()
-
-# ═══════════════════════════════════════════════════════════
-# GRÁFICAS
-# ═══════════════════════════════════════════════════════════
-
-st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
-
-if not df.empty:
-    gc1, gc2 = st.columns(2, gap="medium")
-
-    with gc1:
-        st.markdown('<div class="panel"><div class="p-ttl" style="margin-bottom:14px">📊 INCIDENCIAS POR EMPLEADO</div>', unsafe_allow_html=True)
-        if "nombre" in df.columns:
-            st.bar_chart(df["nombre"].value_counts(), height=220, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    with gc2:
-        st.markdown('<div class="panel"><div class="p-ttl" style="margin-bottom:14px">📈 INCIDENCIAS POR ÁREA</div>', unsafe_allow_html=True)
-        if "area" in df.columns:
-            st.bar_chart(df["area"].value_counts(), height=220, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-# ═══════════════════════════════════════════════════════════
-# BARRA FINAL
-# ═══════════════════════════════════════════════════════════
-
-st.markdown("<div style='height:14px'></div>", unsafe_allow_html=True)
-
-bc1, bc2 = st.columns([1, 4])
-
-with bc1:
-    if not df.empty:
-        st.download_button(
-            "📥 Exportar reporte",
-            data=convertir_excel(datos),
-            file_name=f"EPP_REPORTE_{datetime.now().strftime('%Y%m%d')}.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            use_container_width=True,
-        )
-
-with bc2:
-    st.markdown(f"""
-    <div class="bbar">
-      <span class="bbar-txt">
-        EPP SCANNER · MONITOREO INTELIGENTE DE EQUIPO DE PROTECCIÓN PERSONAL · ÁREA DE TORNO
-      </span>
-
-      <span class="bbar-txt">
-        {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}
-      </span>
-    </div>
-    """, unsafe_allow_html=True)
