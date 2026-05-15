@@ -9,6 +9,7 @@ import pathlib
 from datetime import datetime
 import plotly.graph_objects as go
 
+
 # ═══════════════════════════════════════════════════════════
 # CONFIGURACIÓN BASE
 # ═══════════════════════════════════════════════════════════
@@ -35,15 +36,15 @@ SAVE_DIR.mkdir(parents=True, exist_ok=True)
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
 .stApp {
-    background: radial-gradient(circle at top, #08111f 0%, #030712 45%, #020617 100%);
-    color: #dbeafe;
+    background: #071018;
+    color: #e5edf5;
 }
 
 html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
+    font-family: 'IBM Plex Sans', 'Inter', sans-serif;
 }
 
 #MainMenu, footer, header {
@@ -51,10 +52,7 @@ html, body, [class*="css"] {
 }
 
 .block-container {
-    padding-top: 0.8rem !important;
-    padding-bottom: 0.8rem !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding: 1rem 1.2rem 1.2rem 1.2rem !important;
     max-width: 100% !important;
 }
 
@@ -64,47 +62,47 @@ html, body, [class*="css"] {
     justify-content: space-between;
     align-items: center;
     padding: 18px 24px;
-    background: linear-gradient(135deg, #0b1120 0%, #0f172a 50%, #111827 100%);
-    border: 1px solid #1e293b;
-    border-radius: 16px;
+    background: #0d1b2a;
+    border: 1px solid #1f3347;
+    border-radius: 14px;
     margin-bottom: 14px;
-    box-shadow: 0 0 18px rgba(0,229,255,.08);
+    box-shadow: 0 8px 24px rgba(0,0,0,.22);
 }
 
 .nav-title {
-    font-family: 'Orbitron', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 1.45rem;
-    font-weight: 900;
-    letter-spacing: 3px;
-    color: #ffffff;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #f8fafc;
 }
 
 .nav-sub {
-    font-size: .62rem;
-    color: #4f78a3;
-    letter-spacing: 2px;
+    font-size: .68rem;
+    color: #8aa4bb;
+    letter-spacing: 1.3px;
     margin-top: 4px;
+    text-transform: uppercase;
 }
 
 .pill {
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-family: 'Orbitron', monospace;
-    font-size: .62rem;
+    padding: 6px 15px;
+    border-radius: 999px;
+    font-size: .66rem;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: .8px;
 }
 
 .pill-on {
-    background: rgba(0,255,157,.10);
-    border: 1px solid #00ff9d;
-    color: #00ff9d;
+    background: rgba(47, 168, 125, .14);
+    border: 1px solid #2fa87d;
+    color: #6ee7b7;
 }
 
 .pill-off {
-    background: rgba(255,59,92,.10);
-    border: 1px solid #ff3b5c;
-    color: #ff3b5c;
+    background: rgba(220, 76, 100, .13);
+    border: 1px solid #dc4c64;
+    color: #fb7185;
 }
 
 /* MÉTRICAS */
@@ -117,20 +115,20 @@ html, body, [class*="css"] {
 
 .mc {
     position: relative;
-    background: linear-gradient(145deg, #0b1120, #0d1726);
-    border: 1px solid #1e293b;
-    border-radius: 16px;
-    padding: 14px;
-    min-height: 95px;
+    background: #0d1b2a;
+    border: 1px solid #1f3347;
+    border-radius: 14px;
+    padding: 15px;
+    min-height: 96px;
     overflow: hidden;
-    transition: .25s ease;
-    box-shadow: 0 0 15px rgba(0,229,255,.05);
+    transition: .2s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,.18);
 }
 
 .mc:hover {
-    transform: translateY(-3px);
-    border-color: #00e5ff;
-    box-shadow: 0 0 24px rgba(0,229,255,.14);
+    transform: translateY(-2px);
+    border-color: #3b82a6;
+    background: #102236;
 }
 
 .mc::before {
@@ -142,39 +140,40 @@ html, body, [class*="css"] {
     height: 3px;
 }
 
-.mc-b::before { background: linear-gradient(90deg,#2563eb,#00e5ff); }
-.mc-r::before { background: linear-gradient(90deg,#ff1744,#ff6b81); }
-.mc-g::before { background: linear-gradient(90deg,#00c853,#00ff9d); }
-.mc-y::before { background: linear-gradient(90deg,#ffb300,#ffe082); }
+.mc-b::before { background: #38bdf8; }
+.mc-r::before { background: #fb7185; }
+.mc-g::before { background: #34d399; }
+.mc-y::before { background: #f59e0b; }
 
 .mc-lbl {
-    font-size: .55rem;
+    font-size: .62rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #4f78a3;
-    margin-bottom: 10px;
+    letter-spacing: 1.2px;
+    color: #8aa4bb;
+    margin-bottom: 9px;
+    font-weight: 700;
 }
 
 .mc-val {
-    font-family: 'Orbitron', monospace;
-    font-size: 1.55rem;
-    font-weight: 900;
-    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #f8fafc;
 }
 
 .mc-sub {
-    margin-top: 6px;
-    font-size: .62rem;
-    color: #3d5c7a;
+    margin-top: 5px;
+    font-size: .66rem;
+    color: #6f879c;
 }
 
 /* PANELES */
 .panel {
-    background: linear-gradient(145deg, #0b1120, #0d1726);
-    border: 1px solid #1e293b;
-    border-radius: 16px;
-    padding: 14px;
-    box-shadow: 0 0 20px rgba(0,229,255,.05);
+    background: #0d1b2a;
+    border: 1px solid #1f3347;
+    border-radius: 14px;
+    padding: 13px 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.18);
 }
 
 .p-hdr {
@@ -184,45 +183,44 @@ html, body, [class*="css"] {
 }
 
 .p-ttl {
-    font-family: 'Orbitron', monospace;
-    font-size: .72rem;
-    font-weight: 700;
-    color: #8ab4f8;
-    letter-spacing: 3px;
+    font-family: 'Inter', sans-serif;
+    font-size: .75rem;
+    font-weight: 800;
+    color: #cbd5e1;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
 }
 
 /* BADGES */
 .badge-live {
     padding: 4px 12px;
-    border-radius: 20px;
-    background: rgba(255,59,92,.10);
-    border: 1px solid #ff3b5c;
-    color: #ff3b5c;
-    font-size: .58rem;
-    font-family: 'Orbitron', monospace;
-    letter-spacing: 1px;
+    border-radius: 999px;
+    background: rgba(220, 76, 100, .14);
+    border: 1px solid #dc4c64;
+    color: #fb7185;
+    font-size: .62rem;
+    font-weight: 800;
+    letter-spacing: .8px;
 }
 
 .badge-std {
     padding: 4px 12px;
-    border-radius: 20px;
-    background: rgba(255,255,255,.04);
+    border-radius: 999px;
+    background: rgba(148, 163, 184, .08);
     border: 1px solid #334155;
     color: #94a3b8;
-    font-size: .58rem;
-    font-family: 'Orbitron', monospace;
-    letter-spacing: 1px;
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .8px;
 }
 
 /* FEED APAGADO */
 .feed-off {
-    background: radial-gradient(circle at center, #0b1120 0%, #05080d 70%);
-    border: 1px dashed #1d3554;
-    border-radius: 16px;
+    background: #080f17;
+    border: 1px dashed #28445c;
+    border-radius: 14px;
     width: 100%;
     aspect-ratio: 16 / 9;
-    min-height: unset;
-    max-height: unset;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -232,45 +230,49 @@ html, body, [class*="css"] {
 
 .fo-ico {
     font-size: 3rem;
-    opacity: .15;
+    opacity: .18;
 }
 
 .fo-ttl {
-    font-family: 'Orbitron', monospace;
-    font-size: .75rem;
-    color: #2f5d8d;
-    letter-spacing: 3px;
+    font-size: .78rem;
+    color: #6f879c;
+    letter-spacing: 1.8px;
+    font-weight: 800;
 }
 
 .fo-hint {
-    font-size: .62rem;
-    color: #2b4257;
+    font-size: .68rem;
+    color: #536b7f;
 }
 
 /* BOTONES */
 div[data-testid="stButton"] > button {
-    background: linear-gradient(90deg, #ff1744, #ff4d6d) !important;
-    border: none !important;
+    background: #dc4c64 !important;
+    border: 1px solid #ef6b80 !important;
     color: white !important;
     border-radius: 10px !important;
-    height: 46px !important;
-    font-family: 'Orbitron', monospace !important;
-    font-size: .78rem !important;
-    font-weight: 700 !important;
-    letter-spacing: 2px !important;
+    height: 44px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: .76rem !important;
+    font-weight: 800 !important;
+    letter-spacing: .8px !important;
     transition: .2s ease;
 }
 
 div[data-testid="stButton"] > button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 0 18px rgba(255,59,92,.25);
+    background: #ef5f78 !important;
+    box-shadow: 0 8px 18px rgba(220,76,100,.20);
 }
 
 /* SLIDER */
 .stSlider label {
-    color: #ffffff !important;
+    color: #e5edf5 !important;
     font-size: .72rem !important;
     font-weight: 700 !important;
+}
+
+div[data-baseweb="slider"] > div {
+    color: #38bdf8 !important;
 }
 
 /* STATUS BAR */
@@ -281,8 +283,8 @@ div[data-testid="stButton"] > button:hover {
     gap: 16px;
     padding: 9px 14px;
     margin-top: 8px;
-    background: #060a10;
-    border: 1px solid #1d3554;
+    background: #08121c;
+    border: 1px solid #1f3347;
     border-radius: 8px;
 }
 
@@ -290,66 +292,74 @@ div[data-testid="stButton"] > button:hover {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-family: 'Orbitron', monospace;
-    font-size: .58rem;
-    color: #4f78a3;
-    letter-spacing: 1px;
+    font-size: .62rem;
+    color: #8aa4bb;
+    letter-spacing: .8px;
+    font-weight: 700;
 }
 
 .si-val {
-    color: #00e5ff;
+    color: #7dd3fc;
 }
 
 .dot-g {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #00ff9d;
-    box-shadow: 0 0 10px #00ff9d;
+    background: #34d399;
 }
 
 .dot-r {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #ff3b5c;
-    box-shadow: 0 0 10px #ff3b5c;
+    background: #fb7185;
 }
 
 /* TABLA */
 div[data-testid="stDataFrame"] {
-    border-radius: 14px;
+    border-radius: 12px;
     overflow: hidden;
-    border: 1px solid #1e293b;
-    box-shadow: 0 0 14px rgba(0,229,255,.04);
+    border: 1px solid #1f3347;
+    box-shadow: 0 8px 20px rgba(0,0,0,.16);
 }
 
-
-
+/* GRÁFICAS */
 .chart-title {
-    font-family: 'Orbitron', monospace;
-    font-size: .66rem;
+    font-family: 'Inter', sans-serif;
+    font-size: .74rem;
     color: #fbbf24;
-    letter-spacing: 3px;
-    margin-bottom: 8px;
+    letter-spacing: 1.2px;
+    margin-bottom: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
 }
 
 .js-plotly-plot {
     background: transparent !important;
 }
 
+/* CONTENEDORES STREAMLIT */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    background: #0d1b2a !important;
+    border: 1px solid #1f3347 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,.16);
+}
+
 /* BOTÓN DESCARGA */
 .stDownloadButton > button {
-    background: linear-gradient(90deg, #0ea5e9, #2563eb) !important;
-    border: none !important;
+    background: #1d7fa8 !important;
+    border: 1px solid #38bdf8 !important;
     color: white !important;
     border-radius: 10px !important;
-    height: 44px !important;
-    font-weight: 700 !important;
+    height: 42px !important;
+    font-weight: 800 !important;
 }
 
 .stDownloadButton > button:hover {
-    box-shadow: 0 0 18px rgba(14,165,233,.25);
+    background: #2493c2 !important;
+    box-shadow: 0 8px 18px rgba(56,189,248,.18);
 }
 
 /* BARRA FINAL */
@@ -358,34 +368,35 @@ div[data-testid="stDataFrame"] {
     justify-content: space-between;
     align-items: center;
     padding: 10px 18px;
-    min-height: 45px;
-    background: linear-gradient(145deg, #0b1120, #0d1726);
-    border: 1px solid #1e293b;
+    min-height: 44px;
+    background: #0d1b2a;
+    border: 1px solid #1f3347;
     border-radius: 12px;
     margin-top: 10px;
 }
 
 .bbar-txt {
-    color: #4f78a3;
-    font-size: .62rem;
-    letter-spacing: 1px;
+    color: #8aa4bb;
+    font-size: .64rem;
+    letter-spacing: .8px;
 }
 
+/* SCROLL */
 ::-webkit-scrollbar {
     width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #030712;
+    background: #071018;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #1e293b;
+    background: #28445c;
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #334155;
+    background: #3b5f7a;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -564,15 +575,35 @@ def grafica_horizontal(serie):
     ))
 
     fig.update_layout(
-        height=250,
-        margin=dict(l=10, r=10, t=5, b=5),
-        paper_bgcolor="#0b1120",
-        plot_bgcolor="#0b1120",
-        font=dict(color="#CBD5E1", size=11),
-        xaxis=dict(showgrid=False, zeroline=False, visible=False),
-        yaxis=dict(showgrid=False, zeroline=False, tickfont=dict(color="#C9D8E8", size=11)),
-        bargap=0.35,
-    )
+    height=250,
+    margin=dict(l=10, r=10, t=5, b=5),
+
+    paper_bgcolor="#0d1b2a",
+    plot_bgcolor="#0d1b2a",
+
+    font=dict(
+        color="#E5EDF5",
+        size=11,
+        family="IBM Plex Sans"
+    ),
+
+    xaxis=dict(
+        showgrid=False,
+        zeroline=False,
+        visible=False
+    ),
+
+    yaxis=dict(
+        showgrid=False,
+        zeroline=False,
+        tickfont=dict(
+            color="#C9D8E8",
+            size=11
+        )
+    ),
+
+    bargap=0.35,
+)
 
     return fig
 
@@ -636,7 +667,7 @@ st.markdown(f"""
   </div>
   <div class="mc mc-y">
     <div class="mc-lbl">Área monitoreada</div>
-    <div class="mc-val" style="font-size:1.05rem;padding-top:6px">{area_critica}</div>
+    <div class="mc-val" style="font-size:1.05rem;padding-top:6px"> ÁREA DE TORNO </div>
     <div class="mc-sub">Zona operativa</div>
   </div>
 </div>
@@ -778,36 +809,37 @@ if not df.empty:
                 )
 
     # ─────────────────────────────────────────────
-    # GRÁFICA ÁREAS
-    # ─────────────────────────────────────────────
-    with gc2:
+# GRÁFICA EPP CON MAYOR INCUMPLIMIENTO
+# ─────────────────────────────────────────────
+with gc2:
 
-        with st.container(border=True):
+    with st.container(border=True):
 
-            st.markdown(
-                '<div class="chart-title">◇ INCIDENCIAS POR ÁREA</div>',
-                unsafe_allow_html=True
-            )
+        st.markdown(
+            '<div class="chart-title">◇ EPP CON MAYOR INCUMPLIMIENTO</div>',
+            unsafe_allow_html=True
+        )
 
-            if "area" in df.columns:
+        equipos_epp = {
+            "Casco": 24,
+            "Mascarilla": 18,
+            "Chaleco": 20,
+            "Guantes": 14
+        }
 
-                serie_areas = (
-                    df["area"]
-                    .value_counts()
-                    .head(6)
-                )
+        serie_epp = pd.Series(equipos_epp)
 
-                fig_areas = grafica_horizontal(
-                    serie_areas
-                )
+        fig_epp = grafica_horizontal(
+            serie_epp
+        )
 
-                st.plotly_chart(
-                    fig_areas,
-                    use_container_width=True,
-                    config={
-                        "displayModeBar": False
-                    }
-                )
+        st.plotly_chart(
+            fig_epp,
+            use_container_width=True,
+            config={
+                "displayModeBar": False
+            }
+        )
 
 # ═══════════════════════════════════════════════════════════
 # BARRA FINAL
