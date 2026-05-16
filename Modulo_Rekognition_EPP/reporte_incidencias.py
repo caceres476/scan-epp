@@ -29,22 +29,32 @@ def generar_reporte():
     totales = defaultdict(int)
 
     for incidencia in incidencias:
-        trabajador = incidencia.get("trabajador", "desconocido")
-        tipo = incidencia.get("tipo_incidencia", "incidencia de EPP")
-
-        reporte[trabajador][tipo] += 1
-        totales[trabajador] += 1
+        trabajador = incidencia.get("nombre", "Trabajador no identificado")
+        codigo = incidencia.get("codigo_trabajador", "DESCONOCIDO")
+        
+        key_reporte = f"{codigo} - {trabajador}"
+        
+        # Soportar multiples incidencias (lista) o un string
+        tipos = incidencia.get("tipos_incidencia", [])
+        if not tipos:
+            tipo_str = incidencia.get("tipo_incidencia", "Incidencia no especificada")
+            if tipo_str:
+                tipos = [t.strip() for t in tipo_str.split(",")]
+        
+        for tipo in tipos:
+            reporte[key_reporte][tipo] += 1
+            totales[key_reporte] += 1
 
     print("====================================")
     print("REPORTE GENERAL DE INCIDENCIAS")
     print("====================================")
 
-    for trabajador, tipos in reporte.items():
+    for trabajador, tipos_inc in reporte.items():
         print()
         print("Trabajador:", trabajador)
         print("Total de incidencias:", totales[trabajador])
 
-        for tipo, cantidad in tipos.items():
+        for tipo, cantidad in tipos_inc.items():
             print("-", tipo + ":", cantidad)
 
     print()

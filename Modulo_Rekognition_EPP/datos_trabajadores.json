@@ -1,0 +1,72 @@
+{
+    "german": {
+        "nombre_completo": "German Hernandez",
+        "area": "torno",
+        "puesto": "jefe"
+    },
+    "emp006": {
+        "nombre_completo": "David Caceres el poli",
+        "area": "Administracion",
+        "puesto": "JEfe de jefes"
+    },
+    "TRA002": {
+        "codigo": "TRA002",
+        "nombre": "Abicsai Reyes",
+        "area": "T2",
+        "puesto": "Jefe de area",
+        "imagen": "imagenes_registro/TRA002_abicsai_reyes.jpg",
+        "external_image_id": "TRA002_abicsai_reyes",
+        "fecha_registro": "2026-05-15",
+        "hora_registro": "20:42:22"
+    },
+    "EMP001": {
+        "codigo": "EMP001",
+        "nombre": "Carlos",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "imagen": "imagenes_registro/EMP001_carlos.jpg",
+        "external_image_id": "EMP001_carlos",
+        "fecha_registro": "2026-05-15",
+        "hora_registro": "20:43:17"
+    },
+    "EMP004": {
+        "codigo": "EMP004",
+        "nombre": "Mynor",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "imagen": "imagenes_registro/EMP004_mynor.png",
+        "external_image_id": "EMP004_mynor",
+        "fecha_registro": "2026-05-15",
+        "hora_registro": "20:43:22"
+    },
+    "EMP005": {
+        "codigo": "EMP005",
+        "nombre": "German",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "imagen": "imagenes_registro/EMP005_german.png",
+        "external_image_id": "EMP005_german",
+        "fecha_registro": "2026-05-15",
+        "hora_registro": "20:43:23"
+    },
+    "EMP006": {
+        "codigo": "EMP006",
+        "nombre": "EMP006",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "imagen": "imagenes_registro/EMP006.jpg",
+        "external_image_id": "EMP006",
+        "fecha_registro": "2026-05-15",
+        "hora_registro": "20:43:24"
+    },
+    "TRA001": {
+        "codigo": "TRA001",
+        "nombre": "MYNOR mynor",
+        "area": "Torno",
+        "puesto": "Operador",
+        "imagen": "imagenes_registro/TRA001_mynor_mynor.jpg",
+        "external_image_id": "TRA001_mynor_mynor",
+        "fecha_registro": "2026-05-15",
+        "hora_registro": "21:15:09"
+    }
+}

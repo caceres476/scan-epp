@@ -18,5 +18,47 @@
     "a615fca2-9e02-4121-9132-277b2d3f9c43": {
         "nombre": "emp006",
         "imagen_registro": "imagenes_registro/EMP006.jpg"
+    },
+    "TRA002_abicsai_reyes": {
+        "codigo": "TRA002",
+        "nombre": "Abicsai Reyes",
+        "area": "T2",
+        "puesto": "Jefe de area",
+        "imagen": "imagenes_registro/TRA002_abicsai_reyes.jpg"
+    },
+    "EMP001_carlos": {
+        "codigo": "EMP001",
+        "nombre": "Carlos",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "imagen": "imagenes_registro/EMP001_carlos.jpg"
+    },
+    "EMP004_mynor": {
+        "codigo": "EMP004",
+        "nombre": "Mynor",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "imagen": "imagenes_registro/EMP004_mynor.png"
+    },
+    "EMP005_german": {
+        "codigo": "EMP005",
+        "nombre": "German",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "imagen": "imagenes_registro/EMP005_german.png"
+    },
+    "EMP006": {
+        "codigo": "EMP006",
+        "nombre": "EMP006",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "imagen": "imagenes_registro/EMP006.jpg"
+    },
+    "TRA001_mynor_mynor": {
+        "codigo": "TRA001",
+        "nombre": "MYNOR mynor",
+        "area": "Torno",
+        "puesto": "Operador",
+        "imagen": "imagenes_registro/TRA001_mynor_mynor.jpg"
     }
 }
