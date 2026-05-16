@@ -9,7 +9,6 @@ import pathlib
 from datetime import datetime
 import plotly.graph_objects as go
 
-
 # ═══════════════════════════════════════════════════════════
 # CONFIGURACIÓN BASE
 # ═══════════════════════════════════════════════════════════
@@ -25,7 +24,7 @@ BASE_DIR = pathlib.Path(__file__).resolve().parent
 ROOT_DIR = BASE_DIR.parent
 
 MODEL_PATH = ROOT_DIR / "SCAN_EPP" / "runs" / "detect" / "train2" / "weights" / "best.pt"
-SAVE_DIR = ROOT_DIR / "SCAN_EPP" / "runs" / "detect" / "demo"
+SAVE_DIR = ROOT_DIR / "Modulo_Rekognition_EPP" / "imagenes_incidentes"
 DATA_PATH = BASE_DIR / "datos.json"
 
 SAVE_DIR.mkdir(parents=True, exist_ok=True)
