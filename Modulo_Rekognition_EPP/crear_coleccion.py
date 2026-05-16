@@ -1,25 +1,34 @@
+import os
+from dotenv import load_dotenv
 import boto3
 from botocore.exceptions import ClientError
 
-NOMBRE_COLECCION = "trabajadores_epp"
+load_dotenv()
 
-rekognition = boto3.client("rekognition")
+AWS_REGION = os.getenv("AWS_DEFAULT_REGION", "us-east-1")
+NOMBRE_COLECCION = os.getenv("NOMBRE_COLECCION", "trabajadores_epp")
 
-try:
-    respuesta = rekognition.create_collection(
-        CollectionId=NOMBRE_COLECCION
-    )
+rekognition = boto3.client("rekognition", region_name=AWS_REGION)
 
-    print("Coleccion creada correctamente")
-    print("Nombre:", NOMBRE_COLECCION)
-    print("ARN:", respuesta["CollectionArn"])
-    print("StatusCode:", respuesta["StatusCode"])
+def crear_coleccion():
+    try:
+        respuesta = rekognition.create_collection(
+            CollectionId=NOMBRE_COLECCION
+        )
 
-except ClientError as error:
-    codigo = error.response["Error"]["Code"]
+        print("Coleccion creada correctamente")
+        print("Nombre:", NOMBRE_COLECCION)
+        print("ARN:", respuesta["CollectionArn"])
+        print("StatusCode:", respuesta["StatusCode"])
 
-    if codigo == "ResourceAlreadyExistsException":
-        print("La coleccion ya existe:", NOMBRE_COLECCION)
-    else:
-        print("Error al crear la coleccion:")
-        print(error)
+    except ClientError as error:
+        codigo = error.response["Error"]["Code"]
+
+        if codigo == "ResourceAlreadyExistsException":
+            print("La coleccion ya existe:", NOMBRE_COLECCION)
+        else:
+            print("Error al crear la coleccion:")
+            print(error)
+
+if __name__ == "__main__":
+    crear_coleccion()

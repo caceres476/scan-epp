@@ -13,7 +13,7 @@ IF ERRORLEVEL 1 (
     echo.
     echo Solucion:
     echo 1. Instala Python.
-    echo 2. Marca la opcion Add Python to PATH.
+    echo 2. Marca la opcion "Add Python to PATH".
     echo 3. Vuelve a ejecutar este archivo.
     echo.
     pause
@@ -23,24 +23,31 @@ IF ERRORLEVEL 1 (
 echo Python detectado correctamente.
 echo.
 
-echo Actualizando pip...
-py -m pip install --upgrade pip
+if not exist "venv" (
+    echo Creando entorno virtual venv...
+    py -m venv venv
+) else (
+    echo Entorno virtual venv ya existe.
+)
 
 echo.
-echo Instalando librerias del proyecto...
-py -m pip install -r requirements.txt
+echo Activando entorno virtual y actualizando pip...
+call venv\Scripts\activate.bat
+python -m pip install --upgrade pip
+
+echo.
+echo Instalando dependencias desde requirements.txt...
+pip install -r requirements.txt
 
 echo.
 echo Creando carpetas necesarias...
-
 if not exist "imagenes_registro" mkdir "imagenes_registro"
 if not exist "imagenes_incidentes" mkdir "imagenes_incidentes"
 
 echo.
 echo Creando archivos JSON si no existen...
-
 if not exist "trabajadores.json" echo {} > trabajadores.json
-if not exist "datos_empleados.json" echo {} > datos_empleados.json
+if not exist "datos_trabajadores.json" echo {} > datos_trabajadores.json
 if not exist "incidencias.json" echo [] > incidencias.json
 if not exist "alertas_pendientes.json" echo [] > alertas_pendientes.json
 if not exist "procesadas.json" echo [] > procesadas.json

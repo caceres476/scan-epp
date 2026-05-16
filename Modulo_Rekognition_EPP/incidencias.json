@@ -88,5 +88,186 @@
         "imagen": "imagenes_incidentes/sin_casco.jpg",
         "fecha": "2026-05-14",
         "hora": "21:15:34"
+    },
+    {
+        "id": 11,
+        "codigo_trabajador": "DESCONOCIDO",
+        "nombre": "mynor_caceres",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "tipos_incidencia": [
+            "Incidencia no especificada"
+        ],
+        "tipo_incidencia": "Incidencia no especificada",
+        "fecha": "2026-05-15",
+        "hora": "20:43:37",
+        "confianza_rekognition": 100.0,
+        "imagen": "imagenes_incidentes/EMP004_mynor.png",
+        "estado": "registrada"
+    },
+    {
+        "id": 12,
+        "codigo_trabajador": "DESCONOCIDO",
+        "nombre": "Trabajador no identificado",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "tipos_incidencia": [
+            "Sin guantes",
+            "Sin chaleco"
+        ],
+        "tipo_incidencia": "Sin guantes, Sin chaleco",
+        "fecha": "2026-05-15",
+        "hora": "20:43:40",
+        "confianza_rekognition": 0,
+        "imagen": "imagenes_incidentes/incidencia_Sin_chaleco_Sin_guantes_20260515_202035.jpg",
+        "estado": "no_identificado"
+    },
+    {
+        "id": 13,
+        "codigo_trabajador": "DESCONOCIDO",
+        "nombre": "Trabajador no identificado",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "tipos_incidencia": [
+            "Sin guantes",
+            "Sin chaleco"
+        ],
+        "tipo_incidencia": "Sin guantes, Sin chaleco",
+        "fecha": "2026-05-15",
+        "hora": "20:43:44",
+        "confianza_rekognition": 0,
+        "imagen": "imagenes_incidentes/incidencia_Sin_chaleco_Sin_guantes_20260515_202040.jpg",
+        "estado": "no_identificado"
+    },
+    {
+        "id": 14,
+        "codigo_trabajador": "DESCONOCIDO",
+        "nombre": "Trabajador no identificado",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "tipos_incidencia": [
+            "Sin guantes",
+            "Sin chaleco"
+        ],
+        "tipo_incidencia": "Sin guantes, Sin chaleco",
+        "fecha": "2026-05-15",
+        "hora": "20:43:57",
+        "confianza_rekognition": 0,
+        "imagen": "imagenes_incidentes/incidencia_Sin_chaleco_Sin_guantes_20260515_202045.jpg",
+        "estado": "no_identificado"
+    },
+    {
+        "id": 15,
+        "codigo_trabajador": "DESCONOCIDO",
+        "nombre": "emp006",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "tipos_incidencia": [
+            "Sin guantes",
+            "Sin chaleco",
+            "Sin mascarilla"
+        ],
+        "tipo_incidencia": "Sin guantes, Sin chaleco, Sin mascarilla",
+        "fecha": "2026-05-15",
+        "hora": "20:44:02",
+        "confianza_rekognition": 87.36,
+        "imagen": "imagenes_incidentes/incidencia_Sin_chaleco_Sin_mascarilla_Sin_guantes_20260515_202020.jpg",
+        "estado": "registrada"
+    },
+    {
+        "id": 16,
+        "codigo_trabajador": "DESCONOCIDO",
+        "nombre": "emp006",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "tipos_incidencia": [
+            "Sin casco"
+        ],
+        "tipo_incidencia": "Sin casco",
+        "fecha": "2026-05-15",
+        "hora": "20:44:05",
+        "confianza_rekognition": 100.0,
+        "imagen": "imagenes_incidentes/sin_casco.jpg",
+        "estado": "registrada"
+    },
+    {
+        "id": 17,
+        "codigo_trabajador": "DESCONOCIDO",
+        "nombre": "german",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "tipos_incidencia": [
+            "Sin casco"
+        ],
+        "tipo_incidencia": "Sin casco",
+        "fecha": "2026-05-15",
+        "hora": "20:44:08",
+        "confianza_rekognition": 100.0,
+        "imagen": "imagenes_incidentes/sin_casco_0008 - copia.png",
+        "estado": "registrada"
+    },
+    {
+        "id": 18,
+        "codigo_trabajador": "DESCONOCIDO",
+        "nombre": "german",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "tipos_incidencia": [
+            "Sin casco"
+        ],
+        "tipo_incidencia": "Sin casco",
+        "fecha": "2026-05-15",
+        "hora": "20:44:12",
+        "confianza_rekognition": 100.0,
+        "imagen": "imagenes_incidentes/sin_casco_0008.png",
+        "estado": "registrada"
+    },
+    {
+        "id": 19,
+        "codigo_trabajador": "EMP001",
+        "nombre": "Carlos",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "tipos_incidencia": [
+            "Sin casco"
+        ],
+        "tipo_incidencia": "Sin casco",
+        "fecha": "2026-05-15",
+        "hora": "20:44:15",
+        "confianza_rekognition": 100.0,
+        "imagen": "imagenes_incidentes/sin_casco_001.jpg",
+        "estado": "registrada"
+    },
+    {
+        "id": 20,
+        "codigo_trabajador": "DESCONOCIDO",
+        "nombre": "mynor_caceres",
+        "area": "No disponible",
+        "puesto": "No disponible",
+        "tipos_incidencia": [
+            "Sin lentes"
+        ],
+        "tipo_incidencia": "Sin lentes",
+        "fecha": "2026-05-15",
+        "hora": "20:44:18",
+        "confianza_rekognition": 100.0,
+        "imagen": "imagenes_incidentes/sin_lentes_001.png",
+        "estado": "registrada"
+    },
+    {
+        "id": 21,
+        "codigo_trabajador": "TRA001",
+        "nombre": "MYNOR mynor",
+        "area": "Torno",
+        "puesto": "Operador",
+        "tipos_incidencia": [
+            "Sin chaleco"
+        ],
+        "tipo_incidencia": "Sin chaleco",
+        "fecha": "2026-05-15",
+        "hora": "21:18:02",
+        "confianza_rekognition": 100.0,
+        "imagen": "imagenes_incidentes/incidencia_sin_chaleco.jpg",
+        "estado": "registrada"
     }
 ]

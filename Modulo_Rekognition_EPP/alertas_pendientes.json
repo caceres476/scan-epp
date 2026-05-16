@@ -1,1 +1,18 @@
-[]
+[
+    {
+        "id": 21,
+        "codigo_trabajador": "TRA001",
+        "nombre": "MYNOR mynor",
+        "area": "Torno",
+        "puesto": "Operador",
+        "tipos_incidencia": [
+            "Sin chaleco"
+        ],
+        "tipo_incidencia": "Sin chaleco",
+        "fecha": "2026-05-15",
+        "hora": "21:18:02",
+        "confianza_rekognition": 100.0,
+        "imagen": "imagenes_incidentes/incidencia_sin_chaleco.jpg",
+        "estado": "pendiente"
+    }
+]
